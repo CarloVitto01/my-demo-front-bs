@@ -8,14 +8,13 @@ import { Form, Button } from 'react-bootstrap';
 import './ViewComponent.css'
 
 type FilteredSegnalazioni = Segnalazioni & {
-  filter?: string;
-  inputF: string;
+  surnameInput?: string;
+  dateInput?: Date;
 };
 
 const ViewComponent = () => {
   const [segnalazioniList, setSegnalazioniList] = useState<Segnalazioni[]>([]);
-  const { register, handleSubmit, watch } = useForm<FilteredSegnalazioni>();
-  const inputFValue = watch('inputF');
+  const { register, handleSubmit } = useForm<FilteredSegnalazioni>();
 
   useEffect(() => {
     SegnalazioniService.getSegnalazioni().then((res) => {
@@ -35,16 +34,10 @@ const ViewComponent = () => {
     window.location.reload();
   };
 
-  const isDate = (input: string) => {
-    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
-    return datePattern.test(input);
-  };
-
   const filterBy = async (data: FilteredSegnalazioni) => {
-    const { inputF } = data;
-    const filter = isDate(inputF) ? 'date' : 'surname';
-    const filtered = await SegnalazioniService.filteredSegnalazioneBy(filter, inputF);
-    console.log(`Ho filtrato con le seguenti date: ${inputF} (filter: ${filter})`);
+    const { surnameInput, dateInput } = data;
+    const filtered = await SegnalazioniService.filteredSegnalazioneBy(surnameInput!, dateInput!);
+    console.log(filtered.data);
     setSegnalazioniList(filtered.data);
   };
 
@@ -53,10 +46,14 @@ const ViewComponent = () => {
       <div className="bodySearch">
         <Form onSubmit={handleSubmit(filterBy)}>
           <Form.Group className="mb-3">
-            <Form.Label>Inserisci o la data o il cognome del cliente per filtrare</Form.Label>
-            <Form.Control type="text" placeholder="Input filter" {...register('inputF')} />
+            <Form.Label>Data: </Form.Label>
+            <Form.Control type="date" placeholder="Input filter" {...register('dateInput')} />
           </Form.Group>
-          <Button variant="outline-success" type="submit" disabled={!inputFValue}>Filter</Button>
+          <Form.Group className="mb-3">
+            <Form.Label>Cliente Surname</Form.Label>
+            <Form.Control type="text" placeholder="Input filter" {...register('surnameInput')} />
+          </Form.Group>
+          <Button variant="outline-success" type="submit">Filter</Button>
           <Button variant="outline-warning" type="button" onClick={filterReset}>Reset</Button>
         </Form>
       </div>

@@ -51,14 +51,14 @@ const filteredSegnalazione = async (dateSegnalazione: Date) => {
 };
 
 
-const filteredSegnalazioneBy = async (filterType: string, inputFiltered: string) => {
+const filteredSegnalazioneBy = async (surnameInput: string, dateInput: Date) => {
     try {
         const response = await axios.get(FILTER_URI,
             {
                 params:
                 {
-                    filter: filterType,
-                    inputFilter: inputFiltered
+                    surname: surnameInput,
+                    date: dateInput
                 }
             }
         );
