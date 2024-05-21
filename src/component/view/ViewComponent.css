@@ -1,0 +1,16 @@
+.bodyViewComponent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.containerCardSegnalazioni{
+    margin: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.bodySearch{
+    width: 50%;
+}
