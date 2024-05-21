@@ -47,11 +47,11 @@ const ViewComponent = () => {
         <Form onSubmit={handleSubmit(filterBy)}>
           <Form.Group className="mb-3">
             <Form.Label>Data: </Form.Label>
-            <Form.Control type="date" placeholder="Input filter" {...register('dateInput')} />
+            <Form.Control type="date" placeholder="Date" {...register('dateInput')} />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Cliente Surname</Form.Label>
-            <Form.Control type="text" placeholder="Input filter" {...register('surnameInput')} />
+            <Form.Control type="text" placeholder="Cliente surname" {...register('surnameInput')} />
           </Form.Group>
           <Button variant="outline-success" type="submit">Filter</Button>
           <Button variant="outline-warning" type="button" onClick={filterReset}>Reset</Button>
