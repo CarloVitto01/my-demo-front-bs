@@ -1,32 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Segnalazioni from "../../models/SegnalazioneModel";
 import SegnalazioniService from "../../service/SegnalazioniService";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Form, Button } from 'react-bootstrap';
 import './ViewComponent.css'
 
-type FilteredSegnalazioni = Segnalazioni & {
-  surnameInput?: string;
-  dateInput?: Date;
-};
 
 const ViewComponent = () => {
   const [segnalazioniList, setSegnalazioniList] = useState<Segnalazioni[]>([]);
-  const { register, handleSubmit } = useForm<FilteredSegnalazioni>();
-
-  useEffect(() => {
-    SegnalazioniService.getSegnalazioni().then((res) => {
-      setSegnalazioniList(res.data);
-    });
-  }, []);
-
-  const filterReset = () => {
-    SegnalazioniService.getSegnalazioni().then((res) => {
-      setSegnalazioniList(res.data);
-    });
-  };
+  const { register, handleSubmit } = useForm<Segnalazioni>();
 
   const deleteLesson = async (id: number) => {
     await SegnalazioniService.deleteSegnalazione(id);
@@ -34,9 +18,8 @@ const ViewComponent = () => {
     window.location.reload();
   };
 
-  const filterBy = async (data: FilteredSegnalazioni) => {
-    const { surnameInput, dateInput } = data;
-    const filtered = await SegnalazioniService.filteredSegnalazioneBy(surnameInput!, dateInput!);
+  const filterBy: SubmitHandler<Segnalazioni> = async (data) => {
+    const filtered = await SegnalazioniService.filteredSegnalazioneBy(data.cliente.surname!, data.date);
     console.log(filtered.data);
     setSegnalazioniList(filtered.data);
   };
@@ -47,14 +30,13 @@ const ViewComponent = () => {
         <Form onSubmit={handleSubmit(filterBy)}>
           <Form.Group className="mb-3">
             <Form.Label>Data: </Form.Label>
-            <Form.Control type="date" placeholder="Date" {...register('dateInput')} />
+            <Form.Control type="date" placeholder="Date" {...register('date')} />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Cliente Surname</Form.Label>
-            <Form.Control type="text" placeholder="Cliente surname" {...register('surnameInput')} />
+            <Form.Control type="text" placeholder="Cliente surname" {...register('cliente.surname')} />
           </Form.Group>
           <Button variant="outline-success" type="submit">Filter</Button>
-          <Button variant="outline-warning" type="button" onClick={filterReset}>Reset</Button>
         </Form>
       </div>
       <div className={`containerCardSegnalazioni`}>
