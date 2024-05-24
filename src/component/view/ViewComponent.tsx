@@ -4,7 +4,7 @@ import SegnalazioniService from "../../service/SegnalazioniService";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Col, Row } from 'react-bootstrap';
 import './ViewComponent.css'
 
 
@@ -25,23 +25,27 @@ const ViewComponent = () => {
   };
 
   return (
-    <div className="bodyViewComponent">
-      <div className="bodySearch">
+    <div>
+      <div className="d-flex justify-content-center">
         <Form onSubmit={handleSubmit(filterBy)}>
-          <Form.Group className="mb-3">
-            <Form.Label>Data: </Form.Label>
-            <Form.Control type="date" placeholder="Date" {...register('date')} />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Cliente Surname</Form.Label>
-            <Form.Control type="text" placeholder="Cliente surname" {...register('cliente.surname')} />
-          </Form.Group>
-          <Button variant="outline-success" type="submit">Filter</Button>
+          <Row>
+            <Col xs={6}>
+              <Form.Label>Data: </Form.Label>
+              <Form.Control type="date" placeholder="Date" {...register('date')} />
+            </Col>
+            <Col xs={6}>
+              <Form.Label>Cliente Surname</Form.Label>
+              <Form.Control type="text" placeholder="Cliente surname" {...register('cliente.surname')} />
+            </Col>
+          </Row>
+            <Col className="d-flex justify-content-center mt-2">
+              <Button variant="outline-success" type="submit">Filter</Button>
+            </Col>
         </Form>
       </div>
       <div className={`containerCardSegnalazioni`}>
         {segnalazioniList.map((segnalazioni: Segnalazioni) => (
-          <Card style={{ width: '18rem' }} key={segnalazioni.id}>
+          <Card style={{ width: '18rem', margin: '1em' }} key={segnalazioni.id}>
             <Card.Body>
               <Card.Title>Description:</Card.Title>
               <Card.Text>

@@ -5,14 +5,10 @@ import Navbar from 'react-bootstrap/Navbar';
 const Header = () => {
 
     return (
-        <Navbar className="bg-body-tertiary">
+        <Navbar>
             <Container>
                 <Navbar.Brand>Report Center</Navbar.Brand>
-                <Navbar.Collapse className="justify-content-end">
-                    <Navbar.Text>
-                        <ButtonCreateSegnalazione />
-                    </Navbar.Text>
-                </Navbar.Collapse>
+                <ButtonCreateSegnalazione />
             </Container>
         </Navbar>
     );

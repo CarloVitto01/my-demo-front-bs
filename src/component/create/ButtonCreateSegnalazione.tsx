@@ -16,7 +16,7 @@ const ButtonCreateSegnalazione = () => {
         </Button>
   
         <Modal show={show} onHide={handleClose}>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button variant="danger" onClick={handleClose}>
               Close
             </Button>
           <Modal.Body>
