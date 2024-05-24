@@ -13,13 +13,13 @@ const ViewComponent = () => {
   const { register, handleSubmit } = useForm<Segnalazioni>();
 
   const deleteLesson = async (id: number) => {
-    await SegnalazioniService.deleteSegnalazione(id);
-    console.log("Ho eliminato la segnalazione con id : " + id);
-    window.location.reload();
+      await SegnalazioniService.deleteSegnalazione(id);
+      console.log("Segnalazione eliminata con successo, ID: " + id);
+      setSegnalazioniList(segnalazioniList.filter(segnalazione => segnalazione.id !== id));
   };
 
   const filterBy: SubmitHandler<Segnalazioni> = async (data) => {
-    const filtered = await SegnalazioniService.filteredSegnalazioneBy(data.cliente.surname!, data.date);
+    const filtered = await SegnalazioniService.filteredSegnalazioneBy(data.cliente.surname, data.date);
     console.log(filtered.data);
     setSegnalazioniList(filtered.data);
   };
